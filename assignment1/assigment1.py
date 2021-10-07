@@ -7,6 +7,7 @@ import logging
 import os
 import sys
 import time
+
 import matplotlib.pylab as plt
 
 start_time = time.time()
@@ -44,7 +45,7 @@ my_dict = {
 ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 CHARS = 0
 
-with open(args.path, "rt") as file:
+with open(args.path, "r", enconding = 'utf-8') as file:
     for line in file:
         for x in line:
             if str.lower(x) in ALPHABET:
