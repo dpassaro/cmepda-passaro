@@ -2,11 +2,14 @@
 Assignment 1
 """
 
+# pylint: disable=logging-fstring-interpolation
+
 import argparse
 import logging
 import os
 import sys
 import time
+import string
 
 import matplotlib.pylab as plt
 
@@ -33,29 +36,25 @@ if args.basic_statistics:
 if os.path.exists(args.path):
     logging.info("Correct Path")
 else:
-    logging.error("Path \"{args.path}\" doesn't exist")
+    logging.error(f"Path \"{args.path}\" doesn't exist")
     sys.exit()
 
-my_dict = {
-        'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0,
-        'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':0, 'p':0, 'q':0, 'r':0,
-        's':0, 't':0, 'u':0, 'v':0, 'w':0, 'x':0, 'y':0, 'z':0
-        }
+my_dict = { key : 0 for key in string.ascii_lowercase }
 
-ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 CHARS = 0
 
-with open(args.path, "r", enconding = 'utf-8') as file:
-    for line in file:
-        for x in line:
-            if str.lower(x) in ALPHABET:
-                my_dict[str.lower(x)] += 1
-                CHARS += 1
+with open(args.path, "rt", encoding = 'utf-8') as file:
+    text = file.read()
+
+for x in text:
+    if str.lower(x) in my_dict:
+        my_dict[str.lower(x)] += 1
+        CHARS += 1
 
 file.close()
 
-for x, y in my_dict.items():
-    print(f"{x}:{y*100/CHARS:.3f}%")
+for letter, occurences in my_dict.items():
+    print(f"{letter}: {occurences*100/CHARS:.3f} %")
 
 final_time = time.time()
 print(f"Elapsed time: {final_time-start_time :.3f} s")
